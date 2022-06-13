@@ -1,0 +1,91 @@
+<!--Bootstrap links-->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-10"> <br> &nbsp; 
+      <h2>{{title}}</h2>
+      <hr>
+      <form [formGroup]="reactiveFrom" style="text-align:center" [formGroup]="reactiveFrom" (ngSubmit)="onSubmit(reactiveFrom.value)" > 
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">FirstName</span>
+        <input type="text" id="firstname" name="firstname" formControlName="firstname">
+      <div *ngIf="reactiveFrom.controls['firstname'].touched || reactiveFrom.controls['firstname'].dirty">
+        <div *ngIf="reactiveFrom.controls['firstname'].errors && reactiveFrom.controls['firstname'].errors['pattern']" 
+        [ngClass] = "'error'"> Enter Only Characters!Max20
+        </div>
+        </div>
+        <span class="input-group-text" id="basic-addon1">LastName</span>
+        <input type="text" id="lastname" name="lastname" formControlName="lastname">
+     
+      <div *ngIf="reactiveFrom.controls['lastname'].touched || reactiveFrom.controls['lastname'].dirty">
+        <div *ngIf="reactiveFrom.controls['lastname'].errors && reactiveFrom.controls['lastname'].errors['pattern']" 
+        [ngClass] = "'error'"> Enter Only Characters!Max20
+        </div>
+        </div>
+ </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Address</span>
+        <input name="address" formControlName="address" type="text" class="form-control" placeholder="ADDRESS" aria-label="Username" aria-describedby="basic-addon1">
+        <span class="input-group-text" id="basic-addon1">City</span>
+        <input id="city" name="city" formControlName="city" type="text" class="form-control" placeholder="CITY" aria-label="Username" aria-describedby="basic-addon1">
+      </div>
+      <div class="input-group mb-3">
+      <div *ngIf="reactiveFrom.get('postalcode')?.dirty && reactiveFrom.errors?.['incorrectPostalCode']"> 
+        PostalCode is incorect</div>      
+        <span class="input-group-text" id="basic-addon1">PostalCode</span>
+        <input type="text" id="postalcode" name="postalcode" formControlName="postalcode">
+        <span class="input-group-text" id="basic-addon1">Country</span>
+        <select id="country" name="country"  formControlName="country">
+        <option value="US" >US</option>
+        <option value="CANADA" >CANADA</option>
+        </select>
+      </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="basic-addon1">Type Of Payment</span>
+          <select id="card" name="card"  formControlName="card">
+          <option value="VISA" >VISA</option>
+          <option value="MASTER" >MASTERCARD</option>
+          </select>
+          <span class="input-group-text" id="basic-addon1">card Number</span>
+          <input type="text" id="cardnumber" name="cardnumber" formControlName="cardnumber" placeholder="MAX : 16 DIGITS"
+          appMydirective [maxChars] = 16 
+          [frmCtrl] = "reactiveFrom.get('cardnumber')">
+        <div *ngIf="reactiveFrom.controls['cardnumber'].touched || reactiveFrom.controls['cardnumber'].dirty">
+          <div *ngIf="reactiveFrom.controls['cardnumber'].errors && reactiveFrom.controls['cardnumber'].errors['pattern']" 
+          [ngClass] = "'error'"> Please enter the valid cardnumber
+          </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="basic-addon1">Name On Card</span>
+          <input type="text" id="nameoncard" name="nameoncard" formControlName="nameoncard">
+          <span class="input-group-text" id="basic-addon1">Expire</span>
+        <input type="text" id="expiry" name="expiry" formControlName="expiry" placeholder="MM/YYYY"
+        appMydirective [maxChars] = 7  [frmCtrl] = "reactiveFrom.get('expiry')">
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Name On Card</span>
+          <input type="text" formControlName="cvc" appMydirective [maxChars] = 4 placeholder="MAX : 4 DIGITS"
+          [frmCtrl] = "reactiveFrom.get('cvc')">
+        <div *ngIf="reactiveFrom.controls['cvc'].touched || reactiveFrom.controls['cvc'].dirty">
+        <div *ngIf="reactiveFrom.controls['cvc'].errors && reactiveFrom.controls['cvc'].errors['pattern']" 
+        [ngClass] = "'error'"> Please enter valid CVC
+        </div>
+        </div>
+      </div>
+        <div><label>TOTAL:
+      <input type="text" formControlName="grand_total" [ngModel]="calculateTotal()" >
+        </label></div>
+        <br>
+        <button class="btn btn-primary" mat-button  [disabled]="!reactiveFrom.valid">SUBMIT</button>
+        <div>
+          {{reactiveFrom.valid}}
+          <p>ReactiveFrom value: {{ reactiveFrom.value | json }}</p>
+        </div>
+      </form>
+</div>
+</div>
+</div>
